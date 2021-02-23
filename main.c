@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "pico/bootrom.h"
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 #define ROWS 2
@@ -50,9 +51,14 @@ void countdown(void) {
   }
 }
 
+void reboot(void) {
+  reset_usb_boot(25, 0);
+}
+
 int get_int_stdin(void) {
   while (true) {
     int res = getchar();
+    if (res == 'r') reboot();
     return res - '0';
   }
 }
@@ -87,7 +93,9 @@ void set_leds_to(bool on, int delay) {
 void led_pattern(void) {
   while (true) {
     set_leds_to(1, 500);
-    set_leds_to(0, 500);
+    set_leds_to(0, 200);
+    int c = getchar_timeout_us(1000);
+    if (c == 'r') reboot();
   }
 }
 
