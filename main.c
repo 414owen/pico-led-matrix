@@ -15,6 +15,14 @@ typedef struct led {
 
 bool led_states[ROWS][COLS] = { { 0, 0 }, { 0, 0 } };
 
+void reboot(void) {
+  reset_usb_boot(25, 0);
+}
+
+void handle_quit_input(char c) {
+  if (c == 'r') reboot();
+}
+
 void io_debug(uint g, bool state) {
   printf("%d %d\n", g, state);
   gpio_put(g, state);
@@ -51,14 +59,10 @@ void countdown(void) {
   }
 }
 
-void reboot(void) {
-  reset_usb_boot(25, 0);
-}
-
 int get_int_stdin(void) {
   while (true) {
     int res = getchar();
-    if (res == 'r') reboot();
+    handle_quit_input(res);
     return res - '0';
   }
 }
@@ -94,17 +98,20 @@ void led_pattern(void) {
   while (true) {
     set_leds_to(1, 500);
     set_leds_to(0, 200);
-    int c = getchar_timeout_us(1000);
-    if (c == 'r') reboot();
+    handle_quit_input(getchar_timeout_us(1000));
   }
 }
 
-int main(void) {
+void init_pins(void) {
   for (int i = 0; i < 4; i++) {
     gpio_init(i);
     gpio_set_dir(i, GPIO_OUT);
   }
   stdio_init_all();
+}
+
+int main(void) {
+  init_pins();
   countdown();
   multicore_launch_core1(display_leds);
   led_pattern();
