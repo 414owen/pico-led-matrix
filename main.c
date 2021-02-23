@@ -96,8 +96,10 @@ void set_leds_to(bool on, int delay) {
 
 void led_pattern(void) {
   while (true) {
-    set_leds_to(1, 500);
-    set_leds_to(0, 200);
+    set_leds_to(1, 250);
+    sleep_ms(250);
+    set_leds_to(0, 500);
+    sleep_ms(250);
     handle_quit_input(getchar_timeout_us(1000));
   }
 }
