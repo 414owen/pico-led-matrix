@@ -71,6 +71,7 @@ in stdenv.mkDerivation rec {
     retry
     cmake
     gcc-arm-embedded
+    screen
     python3
     doxygen
     graphviz

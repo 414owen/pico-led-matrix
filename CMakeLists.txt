@@ -38,7 +38,7 @@ set(COMMON_FLAGS "${COMMON_FLAGS} -Wlogical-op")
 set(COMMON_FLAGS "${COMMON_FLAGS} -Wrestrict")
 #SDK# set(COMMON_FLAGS "${COMMON_FLAGS} -Wnull-dereference")
 set(COMMON_FLAGS "${COMMON_FLAGS} -Wdouble-promotion")
-set(COMMON_FLAGS "${COMMON_FLAGS} -Wcast-align")
+# set(COMMON_FLAGS "${COMMON_FLAGS} -Wcast-align")
 #SDK# set(COMMON_FLAGS "${COMMON_FLAGS} -Wcast-qual")
 #SDK# set(COMMON_FLAGS "${COMMON_FLAGS} -Wformat-signedness")
 set(COMMON_FLAGS "${COMMON_FLAGS} -Wframe-larger-than=32768")
@@ -73,7 +73,7 @@ add_executable(main
 )
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(main pico_stdlib)
+target_link_libraries(main pico_stdlib pico_multicore)
 
 # enable usb output, disable uart output
 pico_enable_stdio_usb(main 1)
