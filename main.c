@@ -21,13 +21,11 @@ void handle_quit_input(char c) {
 }
 
 void led_pattern(void) {
-  while (true) {
-    for (int i = 0; i < positive_num; i++) {
-      gpio_put(positives[i], 1);
-      handle_quit_input(getchar_timeout_us(100));
-      sleep_ms(500);
-      gpio_put(positives[i], 0);
-    }
+  for (int i = 0; true; i++, i %= positive_num) {
+    gpio_put(positives[i], 1);
+    handle_quit_input(getchar_timeout_us(100));
+    sleep_ms(500);
+    gpio_put(positives[i], 0);
   }
 }
 
