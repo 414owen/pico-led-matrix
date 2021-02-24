@@ -2,12 +2,8 @@
 #include <stdlib.h>
 #include "pico/bootrom.h"
 #include "pico/stdlib.h"
-#include "pico/multicore.h"
 
 #include "brightness.h"
-
-#define ROWS 2
-#define COLS 2
 
 extern const uint16_t brightnesses[];
 extern const int MAX_BRIGHTNESS;
@@ -15,11 +11,6 @@ extern const int positives[];
 extern const int negatives[];
 extern const int positive_num;
 extern const int negative_num;
-
-const int BUFSIZE = 128;
-const int zero = 0;
-
-uint8_t led_states[ROWS][COLS] = { { 16, 16 }, { 16, 16 } };
 
 void reboot(void) {
   reset_usb_boot(25, 0);
