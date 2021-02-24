@@ -71,7 +71,7 @@ pico_sdk_init()
 add_executable(main
     main.c
     brightness.c
-    leds.c
+    matrix.c
 )
 
 # Add pico_stdlib library which aggregates commonly used features
