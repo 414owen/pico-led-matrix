@@ -1,6 +1,7 @@
+#include <stdbool.h>
 #include "pico/stdlib.h"
 
-const uint16_t brightnesses[] = {
+static const uint16_t brightnesses[] = {
   0b0000000000000000, // 0
   0b1000000000000000, // 1
   0b1000000010000000, // 2
