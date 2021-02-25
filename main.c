@@ -18,9 +18,6 @@ void handle_quit_input(char c) {
 
 void led_pattern(void) {
   printf("tick\n");
-  write_pixel(0,0, 16);
-  write_pixel(0,7, 16);
-  write_pixel(3,7, 16);
   swap_buffers();
   while (true) {
     sleep_ms(100);

@@ -62,19 +62,15 @@ void init_all_pins(void) {
 }
 
 void display_loop(void) {
-  while (true) {
-    for (int tick = 0; tick < MAX_BRIGHTNESS; tick++) {
-      const matrix *buffer = get_active_buffer();
-      for (int i = 0; i < matrix_width; i++) {
-        gpio_put(positives[i], 1);
-        for (int j = 0; j < matrix_height; j++) {
-          // gpio_put(negatives[j], !is_led_on(*buffer[i][j], tick));
-          gpio_put(negatives[j], !!!((*buffer)[j][i]));
-        }
-        sleep_us(500);
-        // printf("%d\n", buffer_ind);
-        gpio_put(positives[i], 0);
+  for (int tick = 0; true; tick++, tick %= MAX_BRIGHTNESS) {
+    const matrix *buffer = get_active_buffer();
+    for (int i = 0; i < matrix_width; i++) {
+      gpio_put(positives[i], 1);
+      for (int j = 0; j < matrix_height; j++) {
+        gpio_put(negatives[j], !is_led_on((*buffer)[j][i], tick));
       }
+      sleep_us(200);
+      gpio_put(positives[i], 0);
     }
   }
 }
