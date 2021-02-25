@@ -17,25 +17,26 @@ void handle_quit_input(char c) {
 }
 
 void led_pattern(void) {
+  printf("tick\n");
+  write_pixel(0,0, 16);
+  write_pixel(0,7, 16);
+  write_pixel(3,7, 16);
+  swap_buffers();
   while (true) {
-    for (int i = 0; i < matrix_width; i++) {
-      // write_pixel(i, i, 1);
-    }
-    sleep_ms(1000);
-    swap_buffers();
+    sleep_ms(100);
+    handle_quit_input(getchar_timeout_us(100));
   }
 }
 
 void countdown(void) {
-  for (int i = 0; i < 10; i++) {
-    sleep_ms(1000);
+  for (int i = 0; i < 30; i++) {
+    sleep_ms(100);
     printf("%d\n", i);
   }
 }
 
 int main(void) {
   stdio_init_all();
-  printf("main\n");
   countdown();
   init_matrix();
   led_pattern();
