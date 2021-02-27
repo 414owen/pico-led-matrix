@@ -4,13 +4,7 @@ cmake_minimum_required(VERSION 3.12)
 # note: this must happen before project()
 include(pico_sdk_import.cmake)
 
-# make common .h files visible
-include_directories(lib)
-
-include(language.cmake)
-
-# turn all reasonable gcc warnings
-include(warnings.cmake)
+include(../common.cmake)
 
 # initialize the Pico SDK
 pico_sdk_init()
