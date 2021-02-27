@@ -1,6 +1,8 @@
 #ifndef matrix_h_INCLUDED
 #define matrix_h_INCLUDED
 
+#include <stdint.h>
+
 void init_matrix(void);
 void write_pixel(int x, int y, uint8_t val);
 void swap_buffers(void);

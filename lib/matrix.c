@@ -9,16 +9,17 @@
 
 extern const int MAX_BRIGHTNESS;
 
-static int positives[] = { 14, 15, 13, 16, 17 };
-static int negatives[] = { 18, 19, 20, 21, 22, 26, 27, 28};
+// static int positives[] = { 18, 21, 26, 27, 28 };
+static int positives[] = { 28, 27, 26, 21, 18 };
+static int negatives[] = { 2, 3, 11, 5, 7, 9, 13, 14 };
 
 enum {
   positive_num = sizeof(positives) / sizeof(positives[0]),
   negative_num = sizeof(negatives) / sizeof(negatives[0])
 };
 
-int matrix_width = positive_num;
-int matrix_height = negative_num;
+const int matrix_width = positive_num;
+const int matrix_height = negative_num;
 
 typedef uint8_t matrix[negative_num][positive_num];
 
@@ -69,7 +70,7 @@ void display_loop(void) {
       for (int j = 0; j < matrix_height; j++) {
         gpio_put(negatives[j], !is_led_on((*buffer)[j][i], tick));
       }
-      sleep_us(200);
+      sleep_us(1000);
       gpio_put(positives[i], 0);
     }
   }
@@ -81,7 +82,7 @@ void zero(void) {
     printf("zeroing buffer %d\n", k);
     for (int i = 0; i < matrix_height; i++) {
       for (int j = 0; j < matrix_width; j++) {
-        (*buffer)[j][i] = 0;
+        (*buffer)[i][j] = 0;
       }
     }
   }
