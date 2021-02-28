@@ -6,26 +6,17 @@
 #include "pico/multicore.h"
 
 #include "brightness.h"
-
-extern const int MAX_BRIGHTNESS;
+#include "matrix.h"
 
 // static int positives[] = { 18, 21, 26, 27, 28 };
-static int positives[] = { 28, 27, 26, 21, 18 };
-static int negatives[] = { 2, 3, 11, 5, 7, 9, 13, 14 };
+const  int positives[] = { 28, 27, 26, 21, 18 };
+const  int negatives[] = { 2, 3, 11, 5, 7, 9, 13, 14 };
 
-enum {
-  positive_num = sizeof(positives) / sizeof(positives[0]),
-  negative_num = sizeof(negatives) / sizeof(negatives[0])
-};
-
-const int matrix_width = positive_num;
-const int matrix_height = negative_num;
-
-typedef uint8_t matrix[negative_num][positive_num];
+typedef uint8_t matrix[NEGATIVE_NUM][POSITIVE_NUM];
 
 static matrix buffer_a = {0};
 static matrix buffer_b = {0};
-static uint8_t (*buffers[])[][positive_num] = { &buffer_a, &buffer_b };
+static uint8_t (*buffers[])[][POSITIVE_NUM] = { &buffer_a, &buffer_b };
 
 static int buffer_ind = 0;
 
@@ -50,7 +41,7 @@ void write_pixel(int x, int y, uint8_t val) {
   (*buffer)[y][x] = val;
 }
 
-void init_pins(int *pins, int pin_num) {
+void init_pins(const int *pins, int pin_num) {
   for (int i = 0; i < pin_num; i++) {
     gpio_init(pins[i]);
     gpio_set_dir(pins[i], GPIO_OUT);
@@ -58,16 +49,16 @@ void init_pins(int *pins, int pin_num) {
 }
 
 void init_all_pins(void) {
-  init_pins(positives, positive_num);
-  init_pins(negatives, negative_num);
+  init_pins(positives, POSITIVE_NUM);
+  init_pins(negatives, NEGATIVE_NUM);
 }
 
 void display_loop(void) {
   for (int tick = 0; true; tick++, tick %= MAX_BRIGHTNESS) {
     const matrix *buffer = get_active_buffer();
-    for (int i = 0; i < matrix_width; i++) {
+    for (int i = 0; i < MATRIX_WIDTH; i++) {
       gpio_put(positives[i], 1);
-      for (int j = 0; j < matrix_height; j++) {
+      for (int j = 0; j < MATRIX_HEIGHT; j++) {
         gpio_put(negatives[j], !is_led_on((*buffer)[j][i], tick));
       }
       sleep_us(1000);
@@ -80,8 +71,8 @@ void zero(void) {
   for (int k = 0; k < 2; k++) {
     matrix *buffer = buffers[k];
     printf("zeroing buffer %d\n", k);
-    for (int i = 0; i < matrix_height; i++) {
-      for (int j = 0; j < matrix_width; j++) {
+    for (int i = 0; i < MATRIX_HEIGHT; i++) {
+      for (int j = 0; j < MATRIX_WIDTH; j++) {
         (*buffer)[i][j] = 0;
       }
     }
@@ -89,7 +80,7 @@ void zero(void) {
 }
 
 void init_matrix(void) {
-  printf("matrix size: %dx%d\n", positive_num, negative_num);
+  printf("matrix size: %dx%d\n", POSITIVE_NUM, NEGATIVE_NUM);
   printf("buffer dimensions: %d\n", sizeof(buffer_a[0]));
   zero();
   printf("initializing gpio\n");

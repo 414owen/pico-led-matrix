@@ -21,8 +21,6 @@ static const uint16_t brightnesses[] = {
   0b1111111111111111, // 16
 };
 
-const int MAX_BRIGHTNESS = 16;
-
 bool is_led_on(int brightness, int tick) {
   uint16_t bitset = brightnesses[brightness];
   return (bitset & ((1 << 15) >> tick)) > 0;

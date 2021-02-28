@@ -1,12 +1,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "brightness.h"
 #include "matrix.h"
 
 #define GLYPH_HEIGHT 8
 #define GLYPH_WIDTH 5
 
-extern const int MAX_BRIGHTNESS;
 extern uint8_t console_font_5x8[];
 
 // Index into a bit-encoded bitmap font
