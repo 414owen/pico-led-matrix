@@ -61,7 +61,7 @@ void display_loop(void) {
       for (int j = 0; j < MATRIX_HEIGHT; j++) {
         gpio_put(negatives[j], !is_led_on((*buffer)[j][i], tick));
       }
-      sleep_us(1000);
+      sleep_us(100);
       gpio_put(positives[i], 0);
     }
   }
